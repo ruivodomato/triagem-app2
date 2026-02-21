@@ -1,13 +1,12 @@
 {
   "name": "TRIAGEM - O SEU GUIA DE BOLSO",
   "short_name": "TRIAGEM",
-  "description": "Assistente de triagem com orientações e sinais de alerta.",
+  "description": "Triagem rápida com orientações básicas, sinais de alerta e sugestões OTC.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#000000",
-  "lang": "pt-BR",
   "icons": [
     {
       "src": "/icons/icon-192.png",
