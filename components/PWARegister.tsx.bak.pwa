@@ -7,12 +7,13 @@ export default function PWARegister() {
     if (typeof window === "undefined") return;
     if (!("serviceWorker" in navigator)) return;
 
-    const onLoad = () => {
-      navigator.serviceWorker
-        .register("/sw.js", { scope: "/" })
-        .catch(() => {
-          // silencioso (evita quebrar build/ui)
-        });
+    const onLoad = async () => {
+      try {
+        await navigator.serviceWorker.register("/sw.js", { scope: "/" });
+      } catch (err) {
+        // Se falhar, não quebra o app
+        console.error("SW register failed:", err);
+      }
     };
 
     window.addEventListener("load", onLoad);

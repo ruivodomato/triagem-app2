@@ -1,15 +1,5 @@
-const CACHE_NAME = "triagem-pwa-v2";
+const CACHE_NAME = "triagem-pwa-v1";
 const CORE_ASSETS = ["/", "/manifest.webmanifest"];
-
-// só aceita http/https (evita erro com chrome-extension:// quando abre DevTools)
-function isHttpRequest(req) {
-  try {
-    const url = new URL(req.url);
-    return url.protocol === "http:" || url.protocol === "https:";
-  } catch {
-    return false;
-  }
-}
 
 self.addEventListener("install", (event) => {
   event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(CORE_ASSETS)));
@@ -28,13 +18,17 @@ self.addEventListener("activate", (event) => {
 self.addEventListener("fetch", (event) => {
   const req = event.request;
 
-  // só GET e só http/https
+  // só GET
   if (req.method !== "GET") return;
-  if (!isHttpRequest(req)) return;
 
-  // evita cache de coisas que costumam dar ruim
-  const url = new URL(req.url);
-  if (url.pathname.startsWith("/_next/")) return;
+  // ✅ evita erro com chrome-extension:// e outros esquemas
+  let url;
+  try {
+    url = new URL(req.url);
+  } catch {
+    return;
+  }
+  if (url.protocol !== "http:" && url.protocol !== "https:") return;
 
   event.respondWith(
     caches.match(req).then((cached) => {
@@ -42,7 +36,7 @@ self.addEventListener("fetch", (event) => {
 
       return fetch(req)
         .then((res) => {
-          // só cacheia resposta válida
+          // não cachear respostas inválidas/opacas
           if (!res || res.status !== 200 || res.type === "opaque") return res;
 
           const copy = res.clone();
