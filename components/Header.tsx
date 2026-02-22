@@ -1,18 +1,36 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function Header() {
+  const pathname = usePathname();
+
   return (
-    <header className="sticky top-0 z-50 border-b bg-white/80 backdrop-blur">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
-        <Link href="/" className="font-semibold">
-          TRIAGEM — Guia de Bolso
+    <header style={{
+      width: "100%",
+      padding: "12px 16px",
+      borderBottom: "1px solid #eee",
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+      background: "#fff",
+      position: "sticky",
+      top: 0,
+      zIndex: 10
+    }}>
+      <Link href="/" style={{ fontWeight: "bold" }}>
+        🏠 TRIAGEM
+      </Link>
+
+      <div style={{ display: "flex", gap: 12 }}>
+        <Link href="/triagem">
+          Triagem
         </Link>
 
-        <nav className="flex gap-4 text-sm">
-          <Link className="hover:underline" href="/triagem">Triagem</Link>
-          <Link className="hover:underline" href="/sistemas">Sistemas</Link>
-          <Link className="hover:underline" href="/historico">Histórico</Link>
-        </nav>
+        <Link href="/triagem/historico">
+          Histórico
+        </Link>
       </div>
     </header>
   );

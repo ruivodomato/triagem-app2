@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import PWARegister from "@/components/PWARegister";
+import Header from "@/components/Header";
 
 export const metadata: Metadata = {
   title: "TRIAGEM - O SEU GUIA DE BOLSO",
@@ -21,6 +22,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <PWARegister />
+        <Header />
         {children}
       </body>
     </html>
